@@ -18,9 +18,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
+<script type="text/javascript"> 
+	
+	function buyclick(){
+		alert('주문되었습니다')
+	}
+
+
+
+</script>
+
+
+
 </head>
 <body>
 
+
+
+<!--메인 -->
 <div class="container">
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="#">
@@ -63,20 +78,20 @@
 	</div>
 
 <!--라벨의 for와 input에서 id 값이 같아야 함 -->
-<form class="form-horizontal"> 
+<form class="form-horizontal" method="post" action="homework01.html"> 
   
  <div class="form-group">
     
     <div class="input-group-prepend"> <!--label이랑 input이랑 한라인 -->
       <label class="input-group-text" for="name">주문자성함</label>
       <div>
-        <input class="form-control" id="name" type="text">
+        <input class="form-control" name="name" id="name" type="text">
      </div>
     </div>
 
 	<div class="input-group-prepend">
  	 <label class="input-group-text" for="count">수량</label>
- 	 <select class="custom-select col-3" id="count">
+ 	 <select class="custom-select col-3" name="count" id="count">
    	 <option selected>Choose...</option>
      <option value="1">1</option>
      <option value="2">2</option>
@@ -87,30 +102,29 @@
 	<div class="input-group-prepend">
  	 <label class="input-group-text" for="count">주소</label>
  	 <div>
-        <input class="form-control" id="area" type="text">
+        <input class="form-control" name="area" id="area" type="text">
      </div>
-      <button>검색</button>
+      <button class="search">검색</button>
 	</div>
 
 	<div class="input-group-prepend">
  	 <label class="input-group-text" for="count">전화번호</label>
  	 <div>
-        <input class="form-control" id="name" type="number">
+        <input class="form-control" name="Phone" id="Phone" type="text">
      </div>
 	</div>
    
 <div class="row text-center" style="width: 100%">
  <div style="width: 30%; float:none; margin:0 auto" >
-	<button type="button" class="btn btn-primary">주문하기</button>
+	<input type="submit" class="btn btn-primary" onclick="buyclick()" value="주문하기"></input>
     </div>
  </div>
 
+
+
+
 </div>
-
-
-
-
-   </form>
+ </form>
 
 
 
@@ -123,5 +137,10 @@
 <!--저작권 표시 -->
 <footer class="bg-dark mt-4 p-5 text-center" style="color: #ffffff;">@copyright 김민준</footer>
 </div>
+
+
+
 </body>
+
+<d
 </html>
