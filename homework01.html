@@ -45,25 +45,25 @@
 
 
 	function buy(){
-  	  		  var	id = $('#id').text()
-			  var	area = $('#area').text()
-			  var   cnt = $('#cnt').text()
-			  var	number = $('#Phone').text()
+  	  		  var	id = $('#id').val()
+			  var	area = $('#area').val()
+			  var   cnt = $('#cnt').val()
+			  var	number = $('#Phone').val()
 
 
 		  	$.ajax({
-		  		// GET 형식으로 값을 불러온다 
+		  		// post 형식으로 값을 불러온다 
 				  type: "POST",
 				  url: "http://spartacodingclub.shop/order",
 				  data: {
-				  	orders:{	name : id,
+					    name : id,
 				  		address : area,
 				  		count : cnt,
 				  		phone : number
-				  	}
+				  	
 
 				  },
-				 dataType:'json',
+				
 				  success: function(response){
 						
 					location.href='homework01.html'
