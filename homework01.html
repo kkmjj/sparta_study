@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>쇼핑몰</title>
@@ -32,6 +32,8 @@
 });
 
 
+
+
  	function next(){
  		nextcontent=nextcontent+5;
  		ready();
@@ -45,30 +47,31 @@
 
 
 	function buy(){
-  	  		  var	id = $('#id').val()
-			  var	area = $('#area').val()
-			  var   cnt = $('#cnt').val()
-			  var	number = $('#Phone').val()
+  	  	let	id = $('#id').val()
+			  let	area = $('#area').val()
+			  let   cnt = $('#cnt').val()
+			  let	number = $('#Phone').val()
+
+          console.log(id,area,cnt,number)
+		  
+      var allData = { "name_give": id, "count_give": cnt, "address_give":area, "phone_give":number};
+      	$.ajax({
 
 
-		  	$.ajax({
 		  		// post 형식으로 값을 불러온다 
+          url: "http://spartacodingclub.shop/order",
 				  type: "POST",
-				  url: "http://spartacodingclub.shop/order",
-				  data: {
-					    name : id,
-				  		address : area,
-				  		count : cnt,
-				  		phone : number
-				  	
-
-				  },
-				
+				  data:allData,
+          
 				  success: function(response){
-						
+  
+					alert('주문되었습니다')
 					location.href='homework01.html'
 
-				  }})
+				  }
+
+
+        })
 
 
   		
@@ -119,14 +122,14 @@
  //     <td>@mdo</td>
  //   </tr>
 
-  function make_card(name, count, area, Phone,i) {
+  function make_card(id, cnt, area, number,i) {
 
   let temp_html = 
   '<tr><th scope="row" style="color:blue">'+i+'</th>\
-    <td>'+name+'</td>\
-    <td>'+count+'</td>\
+    <td>'+id+'</td>\
+    <td>'+cnt+'</td>\
       <td>'+area+'</td>\
-    <td>'+Phone+'</td>\
+    <td>'+number+'</td>\
           </tr>';
 
   $('#jdata').append(temp_html);
