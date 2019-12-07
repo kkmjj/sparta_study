@@ -54,7 +54,7 @@
 
           console.log(id,area,cnt,number)
 		  
-      var allData = { "name_give": id, "count_give": cnt, "address_give":area, "phone_give":number};
+      var allData = { "name_give": id, "count_give": cnt, "address_give":area, "phone_give":number, };
       	$.ajax({
 
 
@@ -88,14 +88,15 @@
 			  success: function(response){
 					 let articles = response['orders'];
 					 let count=1+nextcontent; // 주문번호 나타내기 
+           console.log(response['orders'])
 				 $('#jdata').html('');
 
 				 for (var i = nextcontent; i < nextcontent+5; i++)
 				  {
 
 					 	if(i>articles.length || i<0)break;
-	             		 console.log(nextcontent)
-	             		  console.log(articles[nextcontent]['name'])
+	             		// console.log(nextcontent)
+	             		//  console.log(articles[nextcontent]['name'])
 
 	             		 	
 	    			     	make_card(articles[i]['name'],articles[i]['count'],articles[i]['address'],
@@ -249,6 +250,7 @@
       <th scope="col">주소</th>
       <th scope="col">번호</th>
     </tr>
+
   </thead>
 
   <!--가져온 데이터 넣기 -->
