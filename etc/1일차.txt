@@ -1,0 +1,25 @@
+프레임워크 vs 라이브러리 
+
+웹 vs 앱 
+-> 웹 업데이트때문에 문제 되지 않는다.
+<ul> 태그 : unorderlist
+<uo> orderlist 태그
+
+
+    <p class="mytitle small-font"> 클래스 두개 사용 가능 
+
+margin padding 
+밖여백 margin
+안쪽여백 padding
+
+span 과 p 의 차이
+p는 문단 span은 공백 안들어감 
+
+주석 ctrl / 하면 전체 주석 자동 완성 
+
+display: flex;
+
+
+let은 한번 선언하면 변경 할수 없다
+var는 변경 가능 
+
