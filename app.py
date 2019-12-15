@@ -17,38 +17,37 @@ def home():
    return render_template('index.html')
 
 ## API 역할을 하는 부분
-@app.route('/post', methods=['POST'])
+@app.route('/order', methods=['POST'])
 def saving():
-   url = request.form['url_give']
-   comment = request.form['comment_give']
+   id = request.form['name_give']
+   area = request.form['address_give']
+   cnt = request.form['count_give']
+   number = request.form['phone_give']
    # 클라이언트로부터 데이터를 받는 부분
-   headers = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-   data = requests.get(url, headers=headers)
-   # meta tag를 스크래핑 하는 부분
-   soup = BeautifulSoup(data.text, 'html.parser')
-   image = soup.select_one('meta[property="og:image"]').get('content')
 
    # mongoDB에 넣는 부분
 
    imformation = {
-      'url': url,
-      'comment':comment,
-      'image':image
+      'name': id,
+      'count':cnt,
+      'address':area,
+      'phone': number
    }
 
-   db.articles.insert_one(imformation)
+   db.shops.insert_one(imformation)
 
 
    return jsonify({'result': 'success'})
 
 
-@app.route('/post', methods=['GET'])
+
+
+@app.route('/order', methods=['GET'])
 def getting():
    # 모든 document 찾기 & _id 값은 출력에서 제외하기
-   result = list(db.articles.find({}, {'_id': 0}))
+   result =list(db.shops.find({},{'_id':0}))
    # articles라는 키 값으로 영화정보 내려주기
-   return jsonify({'result': 'success', 'articles': result})
+   return jsonify({'result': 'success', 'shops': result})
 
 
 
