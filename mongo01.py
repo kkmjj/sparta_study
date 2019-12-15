@@ -18,7 +18,7 @@ movies = soup.select('#old_content > table > tbody > tr')
 # movies (tr들) 의 반복문을 돌리기
 rank = 1
 for movie in movies:
-    # movie 안에 a 가 있으면,
+
     a_tag = movie.select_one('td.title > div > a')
     if a_tag is not None:
         title = a_tag.text

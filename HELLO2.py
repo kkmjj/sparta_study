@@ -30,8 +30,7 @@ print (user)
 user = db.users.find_one({'name':'bobby'},{'_id':0})
 print (user)
 
-#updata 하기
-db.people.update_many(찾을조건,{ '$set': 어떻게바꿀지 })
+#updata 하기 db.people.update_many(찾을조건,{ '$set': 어떻게바꿀지 })
 
 db.users.update_one({'name':'bobby'},{'$set':{'age':19}})
 

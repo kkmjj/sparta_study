@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+
+
+  <div class="form-post" id="posting-box">
+    <div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">아티클 URL</label>
+        <input id="posting-url" class="form-control" placeholder="">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">간단 코멘트</label>
+        <textarea id="posting-comment" class="form-control" rows="2"></textarea>
+      </div>
+      <button onclick="posting()" class="btn btn-primary">기사저장</button>
+       <button onclick="getting()" class="btn btn-primary">불러오기</button>
+    </div>
+     </div id="tab">
+     
+    </div>
+  </div>
+
+  </body>
+
+<script>
+   function posting(){
+
+        var url = $('#posting-url').val()
+        var comment = $('#posting-comment').val()
+       
+       $.ajax({
+        type: "POST",
+        url: "/post",
+         data: {url_give:url,comment_give:comment},
+        
+        success: function(response){
+
+
+
+           console.log(response)
+
+
+        }
+      })
+
+   }
+
+
+
+   function getting(){
+
+       $.ajax({
+        type: "GET",
+        url: "/post",
+         data: {},
+        
+        success: function(response){
+
+            $.each(data,function(){
+
+                $('#tap').append("<tr><td>"+data.url+"</tr></td>")
+
+            })
+
+
+        }
+      })
+
+   }
+
+</script>
+</html>
