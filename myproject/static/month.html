@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>가계부 관리하기 </title>
+
+	  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- JS -->   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<!--달력 -->
+<style>
+  table
+    {
+        border:1px solid #BDBDBD;
+        text-align:center;
+        width:30%;
+    }
+</style>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+</nav>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="index.html">메인으로 이동 </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="entire.html" style="color:blue">전체가계부  <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="month.html">이번달 가계부</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="input.html" >거래 입력 </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="excel.html">엑셀파일 생성</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+	
+	<!--달력 화면 -->
+<table align="center" id="calendar" class="table-primary">
+        <tr>
+            <td><font size=1%; color="#B3B6B3"><label onclick="before()" id="before" ></label></font></td>
+            <td colspan="5" align="center" id="yearmonth"></td>
+            <td><font size=1%; color="#B3B6B3"><label onclick="next()" id="next"></label></font></td>
+        </tr>
+        <tr>
+            <td align="center"> <font color="#FF9090">일</font></td>
+            <td align="center"> 월 </td>
+            <td align="center"> 화 </td>
+            <td align="center"> 수 </td>
+            <td align="center"> 목 </td>
+            <td align="center"> 금 </td>
+            <td align="center"><font color=#7ED5E4>토</font></td>
+        </tr>
+    </table>
+    <!--해당 날짜 에 대한 데이터 -->
+<div>
+
+</div>
+
+
+
+
+</body>
+
+<script>
+
+	 var today = new Date(); // 오늘 날짜
+    var date = new Date();
+
+    //화면안에 디자인 현재 날짜 기준으로 현재 달 나오게 
+window.onload = function build() {
+
+	   var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); //현재달의 첫째 날
+        var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); //현재 달의 마지막 날
+        var tbcal = document.getElementById("calendar"); // 테이블 달력을 만들 테이블
+        var yearmonth = document.getElementById("yearmonth"); //  년도와 월 출력할곳
+        yearmonth.innerHTML = today.getFullYear() + "년 "+ (today.getMonth() + 1) + "월"; //년도와 월 출력
+        
+        
+       
+        // 남은 테이블 줄 삭제
+        while (tbcal.rows.length > 2) 
+        {
+            tbcal.deleteRow(tbcal.rows.length - 1);
+        }
+        var row = null;
+        row = tbcal.insertRow();
+        var cnt = 0;
+ 
+        // 1일 시작칸 찾기
+        for (i = 0; i < nMonth.getDay(); i++) 
+        {
+            cell = row.insertCell();
+            cnt = cnt + 1;
+        }
+ 
+        // 달력 출력
+        for (i = 1; i <= lastDate.getDate(); i++) // 1일부터 마지막 일까지
+        { 
+            cell = row.insertCell();
+            cell.innerHTML = i;
+            cnt = cnt + 1;
+            if (cnt % 7 == 1) {//일요일 계산
+                cell.innerHTML = "<font color=#FF9090>" + i//일요일에 색
+            }
+            if (cnt % 7 == 0) { // 1주일이 7일 이므로 토요일 계산
+                cell.innerHTML = "<font color=#7ED5E4>" + i//토요일에 색
+                row = calendar.insertRow();// 줄 추가
+            }
+            if(today.getFullYear()==date.getFullYear()&&today.getMonth()==date.getMonth()&&i==date.getDate()) 
+            {
+                cell.bgColor = "#BCF1B1"; //오늘날짜배경색
+            }
+        }
+}
+
+
+ 
+
+
+
+
+</script>
+</html>

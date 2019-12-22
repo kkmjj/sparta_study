@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>가계부 관리하기 </title>
+
+	  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- JS -->   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+
+  <!--달력 -->
+ 
+</head>
+
+<body>
+	<nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+</nav>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="index.html">메인으로 이동 </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="entire.html">전체가계부  <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="month.html">이번달 가계부</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="input.html" style="color:blue">거래 입력 </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="excel.html">엑셀파일 생성</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+	
+ <div class="input-group-prepend"> <!--label이랑 input이랑 한라인 -->
+      <label class="input-group-text" >날짜 </label>
+      <div>
+     <input id="someDate" type="date">
+     </div>
+    </div>
+
+ <div class="input-group-prepend"> <!--label이랑 input이랑 한라인 -->
+      <label class="input-group-text">금액</label>
+      <div>
+        <input class="form-control"  id="money" type="number">
+     </div>
+  </div>
+
+ <div class="input-group-prepend"> <!--label이랑 input이랑 한라인 -->
+      <label class="input-group-text" >내용</label>
+      <div>
+        <input class="form-control"  id="content" type="text">
+     </div>
+    </div>
+
+    <div class="row text-center" style="width: 100%">
+ <div style="width: 30%; float:none; margin:0 auto" >
+  <input type="submit" class="btn btn-primary" onclick="buy()" value="적용하기"></input>
+    </div>
+ </div>
+
+<div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">주문번호</th>
+      <th scope="col">날짜</th>
+      <th scope="col">금액</th>
+      <th scope="col">내용</th>
+     
+    </tr>
+
+  </thead>
+
+  <!--가져온 데이터 넣기 -->
+  <tbody id="jdata">
+  
+    
+  </tbody>
+</table>
+</div>
+<!--이전 다음 페이지 만들기 -->
+<ul class="pagination justify-content-center mt-3">
+    <li class="page-item">
+   
+
+       <button id="back"class="page-link" onclick="back()">이전 </button>
+
+    </li>
+    
+    
+    <li class="page-item">
+    
+      <button id ="next"  class="page-link" onclick="next()" >다음 </button>
+			
+   
+    </li>
+    
+  </ul>
+
+  <div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">총금액</th>
+    	
+    </tr>
+
+  </thead>
+
+  <!--가져온 데이터 넣기 -->
+  <tbody id="jdata">
+  
+    
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+</body>
+
+
+<script type="text/javascript">
+  
+  let nextcontent =0;
+
+ $(document).ready(function(){
+  $('#cards-box').html('');
+  ready();
+});
+
+
+
+
+  function next(){
+    nextcontent=nextcontent+5;
+    ready();
+
+  }
+
+  function back(){
+    nextcontent=nextcontent-5;
+    ready();
+  }
+
+
+  function buy(){
+        let someDate = $('#someDate').val()
+        let money = $('#money').val()
+        let content = $('#content').val()
+       // console.log(someDate,money,content)
+      
+      var allData = { "someDate_give": someDate, "money_give": money, "content_give":content };
+        $.ajax({
+
+
+          // post 형식으로 값을 불러온다 
+          type: "POST",
+          url: "/counting",
+         
+          data:allData,
+          
+          success: function(response){
+  
+          alert('적용 되었습니다.')
+         // location.href='input.html'
+
+          }
+
+
+        })
+
+
+      
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+    function ready(){
+          
+        $.ajax({
+          // GET 형식으로 값을 불러온다 
+        type: "GET",
+        url: "/counting",
+        data: {},
+       
+        success: function(response){
+           let articles = response['shops'];
+           let count=1+nextcontent; // 주문번호 나타내기 
+           console.log(response['shops'])
+         $('#jdata').html('');
+
+         for (var i = nextcontent; i < nextcontent+5; i++)
+          {
+
+            if(i>articles.length || i<0)break;
+                  // console.log(nextcontent)
+                  //  console.log(articles[nextcontent]['name'])
+
+                    
+                  make_card(articles[i]['name'],articles[i]['count'],articles[i]['address'],
+                    articles[i]['phone'],count)
+
+                        count++;
+         }
+
+
+        }
+      })
+
+
+
+    }
+
+
+
+
+//<tr>
+//      <th scope="row">1</th>
+ //     <td>Mark</td>
+ //     <td>Otto</td>
+ //     <td>@mdo</td>
+ //   </tr>
+
+  function make_card(id, cnt, area, number,i) {
+
+  let temp_html = 
+  '<tr><th scope="row" style="color:blue">'+i+'</th>\
+    <td>'+id+'</td>\
+    <td>'+cnt+'</td>\
+      <td>'+area+'</td>\
+    <td>'+number+'</td>\
+          </tr>';
+
+  $('#jdata').append(temp_html);
+}
+
+
+
+</script>
+</html>
