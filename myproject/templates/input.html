@@ -35,7 +35,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="entire.html">전체가계부  <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="entire.html">전체가계부 </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="month.html">이번달 가계부</a>
@@ -67,6 +67,13 @@
  <div class="input-group-prepend"> <!--label이랑 input이랑 한라인 -->
       <label class="input-group-text" >내용</label>
       <div>
+          <select class="custom-select" id="tag">
+             <option selected>Choose...</option>
+             <option >카페</option>
+             <option >음식</option>
+             <option >의료비 및 보험비</option>
+               <option>기타</option>
+        </select>
         <input class="form-control"  id="content" type="text">
      </div>
     </div>
@@ -74,6 +81,7 @@
     <div class="row text-center" style="width: 100%">
  <div style="width: 30%; float:none; margin:0 auto" >
   <input type="submit" class="btn btn-primary" onclick="buy()" value="적용하기"></input>
+     <button onclick="excel()">엑셀파일보기</button>
     </div>
  </div>
 
@@ -85,6 +93,7 @@
       <th scope="col">날짜</th>
       <th scope="col">금액</th>
       <th scope="col">내용</th>
+      <th scope="col">종류</th>
      
     </tr>
 
@@ -168,23 +177,25 @@
   function buy(){
         let someDate = $('#someDate').val()
         let money = $('#money').val()
+        let tag = $('#tag').val()
         let content = $('#content').val()
-       // console.log(someDate,money,content)
-      
-      var allData = { "someDate_give": someDate, "money_give": money, "content_give":content };
+
+              console.log(someDate)
+      var allData = { 'someDate_give': someDate, 'money_give': money, 'content_give':content ,'tag_give':tag};
+        console.log(allData)
         $.ajax({
 
 
           // post 형식으로 값을 불러온다 
           type: "POST",
-          url: "/counting",
+          url: "/money",
          
           data:allData,
           
           success: function(response){
   
           alert('적용 되었습니다.')
-         // location.href='input.html'
+          location.href='input.html'
 
           }
 
@@ -195,6 +206,23 @@
       
       }
 
+   function excel(){
+
+
+        $.ajax({
+          // GET 형식으로 값을 불러온다
+        type: "GET",
+        url: "/excel",
+        data: {},
+
+        success: function(response){
+
+            alert('파일이 생성되었습니다' )
+
+        }
+      })
+
+   }
 
 
 
@@ -211,7 +239,7 @@
         $.ajax({
           // GET 형식으로 값을 불러온다 
         type: "GET",
-        url: "/counting",
+        url: "/money",
         data: {},
        
         success: function(response){
@@ -219,17 +247,18 @@
            let count=1+nextcontent; // 주문번호 나타내기 
            console.log(response['shops'])
          $('#jdata').html('');
+    console.log(articles[0]['somedate'.yyyy])
 
          for (var i = nextcontent; i < nextcontent+5; i++)
           {
 
             if(i>articles.length || i<0)break;
                   // console.log(nextcontent)
-                  //  console.log(articles[nextcontent]['name'])
+                  //  console.log(articles[nextcontent]['content'])
 
                     
-                  make_card(articles[i]['name'],articles[i]['count'],articles[i]['address'],
-                    articles[i]['phone'],count)
+                  make_card(articles[i]['somedate'],articles[i]['money'],articles[i]['content'],articles[i]['tag'],
+                   	count)
 
                         count++;
          }
@@ -252,14 +281,14 @@
  //     <td>@mdo</td>
  //   </tr>
 
-  function make_card(id, cnt, area, number,i) {
+  function make_card(somedate,money,content,tag,count) {
 
-  let temp_html = 
-  '<tr><th scope="row" style="color:blue">'+i+'</th>\
-    <td>'+id+'</td>\
-    <td>'+cnt+'</td>\
-      <td>'+area+'</td>\
-    <td>'+number+'</td>\
+  let temp_html =
+  '<tr><th scope="row" style="color:blue">'+count+'</th>\
+    <td>'+somedate+'</td>\
+    <td>'+money+'</td>\
+      <td>'+content+'</td>\
+      <td>'+tag+'</td>\
           </tr>';
 
   $('#jdata').append(temp_html);

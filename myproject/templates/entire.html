@@ -16,6 +16,12 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <!--달력 -->
+
+
+<!-- 차트 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+
 <style>
   table
     {
@@ -48,14 +54,14 @@
         <a class="nav-link" href="input.html" >거래 입력 </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="excel.html">엑셀파일 생성</a>
+        <a class="nav-link " href="excel.html">엑셀파일보기 </a>
       </li>
     </ul>
   </div>
 </nav>
-	
+
 	<!--달력 화면 -->
-<table align="center" id="calendar">
+<table align="center" id="calendar"  class="table-primary">
         <tr>
             <td><font size=1%; color="#B3B6B3"><label onclick="before()" id="before" ></label></font></td>
             <td colspan="5" align="center" id="yearmonth"></td>
@@ -72,9 +78,10 @@
         </tr>
     </table>
     <!--해당 날짜 에 대한 데이터 -->
-
-
-
+<div style="width:800px">
+    <canvas id="myChart" >
+    </canvas>
+</div>
 
 
 </body>
@@ -84,7 +91,7 @@
 	 var today = new Date(); // 오늘 날짜
     var date = new Date();
 
-    //화면안에 디자인 현재 날짜 기준으로 현재 달 나오게 
+    //화면안에 디자인 현재 날짜 기준으로 현재 달 나오게
 window.onload = function build() {
 
 	   var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); //현재달의 첫째 날
@@ -92,10 +99,10 @@ window.onload = function build() {
         var tbcal = document.getElementById("calendar"); // 테이블 달력을 만들 테이블
         var yearmonth = document.getElementById("yearmonth"); //  년도와 월 출력할곳
         yearmonth.innerHTML = today.getFullYear() + "년 "+ (today.getMonth() + 1) + "월"; //년도와 월 출력
-        
 
 
-        if(today.getMonth()+1==12) //  눌렀을 때 월이 넘어가는 곳 / 양쪽 한달 후 한달전 계산 
+
+        if(today.getMonth()+1==12) //  눌렀을 때 월이 넘어가는 곳 / 양쪽 한달 후 한달전 계산
         {
             before.innerHTML=(today.getMonth())+"월";
             next.innerHTML="1월";
@@ -110,27 +117,27 @@ window.onload = function build() {
             before.innerHTML=(today.getMonth())+"월";
             next.innerHTML=(today.getMonth()+2)+"월";
         }
-        
-       
+
+
         // 남은 테이블 줄 삭제
-        while (tbcal.rows.length > 2) 
+        while (tbcal.rows.length > 2)
         {
             tbcal.deleteRow(tbcal.rows.length - 1);
         }
         var row = null;
         row = tbcal.insertRow();
         var cnt = 0;
- 
+
         // 1일 시작칸 찾기
-        for (i = 0; i < nMonth.getDay(); i++) 
+        for (i = 0; i < nMonth.getDay(); i++)
         {
             cell = row.insertCell();
             cnt = cnt + 1;
         }
- 
+
         // 달력 출력
         for (i = 1; i <= lastDate.getDate(); i++) // 1일부터 마지막 일까지
-        { 
+        {
             cell = row.insertCell();
             cell.innerHTML = i;
             cnt = cnt + 1;
@@ -141,15 +148,144 @@ window.onload = function build() {
                 cell.innerHTML = "<font color=#7ED5E4>" + i//토요일에 색
                 row = calendar.insertRow();// 줄 추가
             }
-            if(today.getFullYear()==date.getFullYear()&&today.getMonth()==date.getMonth()&&i==date.getDate()) 
+            if(today.getFullYear()==date.getFullYear()&&today.getMonth()==date.getMonth()&&i==date.getDate())
             {
                 cell.bgColor = "#BCF1B1"; //오늘날짜배경색
             }
         }
+          ready();
 }
 
 
- 
+              var one=0;
+               var two=0;
+               var three=0;
+               var four=0;
+               var five=0;
+               var six=0;
+               var seven=0;
+               var eight=0;
+               var nine=0;
+               var ten=0;
+               var eleven =0;
+               var tweleve=0;
+    function ready(){
+  $.ajax({
+          // GET 형식으로 값을 불러온다
+        type: "GET",
+        url: "/money",
+        data: {},
+
+        success: function(response){
+           let articles = response['shops'];
+           console.log(response['shops'])
+
+         for (var i = 0; i < articles.length; i++)
+          {
+            var date =articles[i]['somedate'].split('-')
+              console.log(date[0]+date[1])
+              console.log(today.getFullYear())
+             if(date[0]==today.getFullYear() && date[1]=='01')
+             {
+                console.log("1월")
+                one += parseInt(articles[i]['money'])
+                console.log(one+articles[i]['content'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='02')
+             {
+                console.log("2월")
+                 two += parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='03')
+             {
+                console.log("3월")
+                three+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='04')
+             {
+                console.log("4월")
+                four+= parseInt(articles[i]['money'])
+             }
+
+              if(date[0]==today.getFullYear() && date[1]=='05')
+             {
+                console.log("5월")
+                five+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='06')
+             {
+                console.log("6월")
+                six+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='07')
+             {
+                console.log("7월")
+                seven+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='08')
+             {
+                console.log("8월")
+                eight+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='09')
+             {
+                console.log("9월")
+                nine+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='10')
+             {
+                console.log("10월")
+                ten+= parseInt(articles[i]['money'])
+             }
+              if(date[0]==today.getFullYear() && date[1]=='11')
+             {
+                console.log("11월")
+                eleven+= parseInt(articles[i]['money'])
+             }
+                 if(date[0]==today.getFullYear() && date[1]=='12')
+             {
+                console.log("12월")
+                tweleve+= parseInt(articles[i]['money'])
+             }
+
+
+          }
+
+            console.log(one+"1월")
+
+           var ctx = document.getElementById('myChart').getContext('2d');
+
+    var data = {
+        // The type of chart we want to create
+        type: 'line',
+        // The data for our dataset
+        data: {
+            labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월","8월","9월","10월","11월","12월"],
+            datasets: [{
+                label: "이번년도",
+                backgroundColor: 'rgb(255, 99, 132)',
+                fill:false, // line의 아래쪽을 색칠할 것인가?
+                borderColor: 'rgb(255, 99, 132)',
+                lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+                data: [one, two, three, four, five, six, seven,eight,nine,ten,eleven,tweleve],
+            }]
+        },
+        // Configuration options go here
+        options: {}
+    }
+    var chart = new Chart(ctx, data);
+
+
+
+
+        }
+
+      })
+
+
+}
+
+
 
 
 
