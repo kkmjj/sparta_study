@@ -125,6 +125,8 @@ def exeting():
    work_sheet.cell(row=7, column=9, value=other)
    work_book.save('prac01.xlsx')
 
+
+
    return jsonify({'result': 'success', 'shops': result})
 
 
