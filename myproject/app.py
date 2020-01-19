@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 #엑셀 파일 생성 시 필요
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 
 import jwt
 import datetime   #로그인시 토큰시간 지정
@@ -90,7 +90,7 @@ def api_valid():
       # token을 시크릿키로 디코딩합니다.
       # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
       payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-      print(payload)
+     # print(payload)
 
       # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
       # 여기에선 그 예로 닉네임을 보내주겠습니다.
@@ -177,31 +177,56 @@ def getting():
 def exeting():
    result = list(db.counting.find({}, {'_id': 0}))
    row = 4
-   work_book = load_workbook('prac01.xlsx')
-   work_sheet = work_book['prac']
+   token_receive = request.headers['token_give']
+
+
+
+   #payload를 찍어보면 id 값이 존재한다
+   payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+      # 해당 아이디 값을 받아서 엑셀 저장 이름에 넣는다.
+   id = payload['id'] + '.xlsx'
+   work_book = Workbook()
+
+
+   print(id)
+   work_sheet = work_book.active
+   work_sheet.title="par"
    sum=0
    cafe=0
    food=0
    medical=0
    other=0
+   work_sheet.cell(row=3, column=1, value="날짜")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=3, column=2, value="내용")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=3, column=3, value="종류")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=3, column=4, value="금액")  # 날짜 엑셀에 적용
+
+   work_sheet.cell(row=3, column=6, value="총금액")  # 날짜 엑셀에 적용
+
+   work_sheet.cell(row=6, column=6, value="카페")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=6, column=7, value="의료")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=6, column=8, value="음식")  # 날짜 엑셀에 적용
+   work_sheet.cell(row=6, column=9, value="기타")  # 날짜 엑셀에 적용
    for s in result:
-    print(s['somedate'])
-    work_sheet.cell(row=row, column=1, value=s['somedate']) #날짜 엑셀에 적용
-    work_sheet.cell(row=row, column=2, value=s['content'])  # 내용 엑셀에 적용
-    work_sheet.cell(row=row, column=3, value=s['tag'])  # 태그 엑셀에 적용
-    work_sheet.cell(row=row, column=4, value=s['money'])  #돈  엑셀에 적용
-    sum+=int(s['money'])
-    if(s['tag']=='카페'):
-     cafe+=int(s['money'])
-    if (s['tag'] == '카페'):
+   # print(s['somedate'])
+    if(payload['id']==s['id']):
+     work_sheet.cell(row=row, column=1, value=s['somedate']) #날짜 엑셀에 적용
+     work_sheet.cell(row=row, column=2, value=s['content'])  # 내용 엑셀에 적용
+     work_sheet.cell(row=row, column=3, value=s['tag'])  # 태그 엑셀에 적용
+     work_sheet.cell(row=row, column=4, value=s['money'])  #돈  엑셀에 적용
+     sum+=int(s['money'])
+     if(s['tag']=='카페'):
+       cafe+=int(s['money'])
+     if (s['tag'] == '카페'):
        cafe += int(s['money'])
-    if (s['tag'] == '음식'):
+     if (s['tag'] == '음식'):
        food += int(s['money'])
-    if (s['tag'] == '의료비 및 보험비'):
-       medical += int(s['money'])
-    if (s['tag'] == '기타'):
-       other += int(s['money'])
-    row=row+1
+     if (s['tag'] == '의료비 및 보험비'):
+        medical += int(s['money'])
+     if (s['tag'] == '기타'):
+        other += int(s['money'])
+     row=row+1
 
    work_sheet.cell(row=4, column=6, value=sum)  # 총 금액 엑셀에 적용
 
@@ -210,7 +235,7 @@ def exeting():
    work_sheet.cell(row=7, column=7, value=food)
    work_sheet.cell(row=7, column=8, value=medical)
    work_sheet.cell(row=7, column=9, value=other)
-   work_book.save('prac01.xlsx')
+   work_book.save(id)
 
 
 
@@ -220,3 +245,4 @@ def exeting():
 if __name__ == '__main__':
    app.run('127.0.0.1',port=5000,debug=True)
    #aws 0.0.0.0
+   #127.0.0.1
